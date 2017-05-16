@@ -534,4 +534,38 @@ public class OGC_FilterEncodingTest {
                 sortBy.getSortProperty().get(1).getValueReference(), "temperature");
     }
 
+    /**
+     * Test of the additional operators not defined in the FES.
+     * @throws JAXBException
+     */
+    @Test
+    public void TestExtendedOperators() throws JAXBException {
+        
+        //test New Operator
+        xml = OGC_FilterEncodingTest.class.getResourceAsStream("filter_NewOperator.xml");
+        JAXBElement myOpsElement = (JAXBElement) unmarshaller.unmarshal(xml);
+        FilterType newOperator = (FilterType) myOpsElement.getValue();
+
+        File xmlMarshal = new File("src\\test\\resources\\org\\orbisgis\\ogccustomtest\\Xml_Return.xml");
+        marshaller.marshal(myOpsElement,xmlMarshal );
+        displayFileXML(xmlMarshal);
+
+    }
+
+    public void displayFileXML(File file){
+        try{
+            InputStream flux=new FileInputStream(file);
+            InputStreamReader lecture=new InputStreamReader(flux);
+            BufferedReader buff=new BufferedReader(lecture);
+            String line;
+            while ((line=buff.readLine())!=null ) {
+                System.out.println(line);
+            }
+            buff.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
